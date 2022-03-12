@@ -1,0 +1,10 @@
+# update lib
+git status
+git add .
+git commit -m "message"
+
+# increment the version -> manually or:
+npm version patch
+npmr run build
+
+npm publish
