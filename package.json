@@ -2,8 +2,8 @@
   "name": "idaly_core",
   "description": "Core of the project",
   "version": "0.0.1",
-  "main": "./build/index.js",
-  "types": "./build/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "files": [
     "build/**/*"
   ],
