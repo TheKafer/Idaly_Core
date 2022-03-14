@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheKafer/Idaly_Core.git"
+    "url": "git@github.com:TheKafer/Idaly_Core.git"
   },
   "author": "",
   "license": "ISC",

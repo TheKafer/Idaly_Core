@@ -8,3 +8,6 @@ npm version patch
 npmr run build
 
 npm publish
+
+# Istall the package
+ npm install git+ssh://git@github.com:TheKafer/Idaly_Core.git#main
