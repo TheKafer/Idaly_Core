@@ -22,8 +22,7 @@
   },
   "scripts": {
     "clean": "del build/*",
-    "build": "npm run clean && tsc",
-    "install": "npm run build"
+    "build": "npm run clean && tsc"
   },
   "repository": {
     "type": "git",
