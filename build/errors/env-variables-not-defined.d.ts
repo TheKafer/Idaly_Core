@@ -1,8 +1,8 @@
 import { BaseError } from "./base-error";
 export declare class EnvVariablesNotDefinedError extends BaseError {
+    message: string;
     statusCode: number;
-    reason: string;
-    constructor();
+    constructor(message: string);
     serializeErros(): {
         message: string;
     }[];

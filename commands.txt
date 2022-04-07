@@ -5,7 +5,7 @@ git commit -m "message"
 
 # increment the version -> manually or:
 npm version patch
-npmr run build
+npm run build
 
 npm publish
 
