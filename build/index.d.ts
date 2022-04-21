@@ -11,3 +11,4 @@ export * from './middlewares/error-handler';
 export * from './middlewares/passwords-not-match';
 export * from './middlewares/require-auth';
 export * from './middlewares/validate-request';
+export * from './services/token';
