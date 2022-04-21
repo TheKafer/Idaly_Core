@@ -9,24 +9,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PasswordManager = void 0;
+exports.TokenManager = void 0;
 const crypto_1 = require("crypto");
 const util_1 = require("util");
 const scryptAsync = (0, util_1.promisify)(crypto_1.scrypt);
-class PasswordManager {
-    static toHash(password) {
+class TokenManager {
+    static toHash(token) {
         return __awaiter(this, void 0, void 0, function* () {
             const salt = (0, crypto_1.randomBytes)(8).toString('hex');
-            const buf = (yield scryptAsync(password, salt, 64));
+            const buf = (yield scryptAsync(token, salt, 64));
             return `${buf.toString('hex')}.${salt}`;
         });
     }
-    static compare(storePassword, suppliedPassword) {
+    static compare(storetoken, suppliedtoken) {
         return __awaiter(this, void 0, void 0, function* () {
-            const [hashedPassword, salt] = storePassword.split('.');
-            const buf = (yield scryptAsync(suppliedPassword, salt, 64));
-            return buf.toString('hex') === hashedPassword;
+            const [hashedtoken, salt] = storetoken.split('.');
+            const buf = (yield scryptAsync(suppliedtoken, salt, 64));
+            return buf.toString('hex') === hashedtoken;
         });
     }
 }
-exports.PasswordManager = PasswordManager;
+exports.TokenManager = TokenManager;
