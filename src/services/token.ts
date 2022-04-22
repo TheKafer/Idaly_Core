@@ -5,7 +5,7 @@ const scryptAsync = promisify(scrypt);
 
 export class TokenManager {
     static async generateToken() {
-        return randomBytes(24).toString('hex');
+        return randomBytes(12).toString('hex');
     }
 
     static async toHash(token: string) {

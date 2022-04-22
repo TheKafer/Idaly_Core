@@ -16,7 +16,7 @@ const scryptAsync = (0, util_1.promisify)(crypto_1.scrypt);
 class TokenManager {
     static generateToken() {
         return __awaiter(this, void 0, void 0, function* () {
-            return (0, crypto_1.randomBytes)(24).toString('hex');
+            return (0, crypto_1.randomBytes)(12).toString('hex');
         });
     }
     static toHash(token) {
