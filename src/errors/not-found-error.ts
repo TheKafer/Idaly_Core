@@ -1,15 +1,15 @@
 import { BaseError } from "./base-error";
 
 export class NotFoundError extends BaseError{
-    statusCode= 404;
+    statusCode = 404;
 
-    constructor() {
-        super('Route not found');
+    constructor(public message: string) {
+        super(message);
 
-        Object.setPrototypeOf(this, NotFoundError);
+        Object.setPrototypeOf(this, NotFoundError.prototype);
     }
 
     serializeErros() {
-        return [{ message: 'Not FOund'}];
+        return [{ message: this.message }];
     }
 }
