@@ -29,3 +29,8 @@ __exportStar(require("./middlewares/passwords-not-match"), exports);
 __exportStar(require("./middlewares/require-auth"), exports);
 __exportStar(require("./middlewares/validate-request"), exports);
 __exportStar(require("./services/token"), exports);
+__exportStar(require("./events/base-listener"), exports);
+__exportStar(require("./events/base-publisher"), exports);
+__exportStar(require("./events/sensor-created-event"), exports);
+__exportStar(require("./events/sensor-deleted-event"), exports);
+__exportStar(require("./events/subjects"), exports);

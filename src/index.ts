@@ -15,3 +15,9 @@ export * from './middlewares/require-auth';
 export * from './middlewares/validate-request';
 
 export * from './services/token';
+
+export * from './events/base-listener';
+export * from './events/base-publisher';
+export * from './events/sensor-created-event';
+export * from './events/sensor-deleted-event';
+export * from './events/subjects';
