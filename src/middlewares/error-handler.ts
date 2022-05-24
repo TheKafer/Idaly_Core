@@ -9,6 +9,9 @@ export const errorHandler = (
 ) => {
     if (err instanceof BaseError) {
         return res.status(err.statusCode).send({ errors: err.serializeErros() });
+    } else {
+        console.log('Uncontrolled Error:');
+        console.log(err);
     }
 
     res.status(400).send({
