@@ -13,6 +13,7 @@ export * from './middlewares/passwords-not-match';
 export * from './middlewares/require-auth';
 export * from './middlewares/validate-request';
 export * from './services/token';
+export * from './services/json';
 export * from './events/base-listener';
 export * from './events/base-publisher';
 export * from './events/sensor-created-event';
