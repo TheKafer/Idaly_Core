@@ -35,7 +35,7 @@ export class JsonManager {
 
                 const typeField = schema[receivedKeys[i]];
 
-                if (typeField == 'DATE'){
+                if (typeField == 'DATE') {
                     if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != 'NUMBER') return false;
                 } else {
                     if (typeField != JsonManager.getField(suppliedJson[receivedKeys[i]])) return false; 
