@@ -66,10 +66,14 @@ export class JsonManager {
                     return false;
                 }
             } else {
-                if (JsonManager.isString(schema[keys[i]])) {
-                    if (!JsonManager.isAllowedField(schema[keys[i]])) return false;
+                if (JsonManager.isJson(schema[keys[i]])) {
+                    return JsonManager.validateSchema(schema[keys[i]]);
                 } else {
-                    return false;
+                    if (JsonManager.isString(schema[keys[i]])) {
+                        if (!JsonManager.isAllowedField(schema[keys[i]])) return false;
+                    } else {
+                        return false;
+                    }
                 }
             }
         }
