@@ -54,8 +54,18 @@ class JsonManager {
         for (let i = 0; i < keys.length; i++) {
             if (JsonManager.isArray(schema[keys[i]])) {
                 if (schema[keys[i]].length === 1) {
-                    if (JsonManager.isJson(schema[keys[i]][0]))
+                    if (JsonManager.isJson(schema[keys[i]][0])) {
                         return JsonManager.validateSchema(schema[keys[i]][0]);
+                    }
+                    else {
+                        if (JsonManager.isString(schema[keys[i]][0])) {
+                            if (!JsonManager.isAllowedField(schema[keys[i]][0]))
+                                return false;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
                 }
                 else {
                     return false;
