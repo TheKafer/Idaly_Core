@@ -71,12 +71,14 @@ class JsonManager {
                     return false;
                 }
             }
-            if (JsonManager.isString(schema[keys[i]])) {
-                if (!JsonManager.isAllowedField(schema[keys[i]]))
-                    return false;
-            }
             else {
-                return false;
+                if (JsonManager.isString(schema[keys[i]])) {
+                    if (!JsonManager.isAllowedField(schema[keys[i]]))
+                        return false;
+                }
+                else {
+                    return false;
+                }
             }
         }
         return true;
