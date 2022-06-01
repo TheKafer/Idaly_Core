@@ -1,6 +1,6 @@
 export declare class JsonManager {
     static compare(schema: any, suppliedJson: any): boolean;
-    static validateSchema(schema: any): boolean;
+    static validateSchema(schema: any): any[];
     static getField(obj: any): string;
     static isAllowedField(obj: string): boolean;
     static isJson(obj: any): boolean;

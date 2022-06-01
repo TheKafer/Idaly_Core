@@ -51,42 +51,43 @@ class JsonManager {
     }
     static validateSchema(schema) {
         const keys = Object.keys(schema);
+        let errors = [];
         for (let i = 0; i < keys.length; i++) {
             if (JsonManager.isArray(schema[keys[i]])) {
                 if (schema[keys[i]].length === 1) {
                     if (JsonManager.isJson(schema[keys[i]][0])) {
-                        return JsonManager.validateSchema(schema[keys[i]][0]);
+                        errors.concat(JsonManager.validateSchema(schema[keys[i]][0]));
                     }
                     else {
                         if (JsonManager.isString(schema[keys[i]][0])) {
                             if (!JsonManager.isAllowedField(schema[keys[i]][0]))
-                                return false;
+                                errors.push(schema[keys[i]][0]);
                         }
                         else {
-                            return false;
+                            errors.push(schema[keys[i]][0]);
                         }
                     }
                 }
                 else {
-                    return false;
+                    errors.push(schema[keys[i]]);
                 }
             }
             else {
                 if (JsonManager.isJson(schema[keys[i]])) {
-                    return JsonManager.validateSchema(schema[keys[i]]);
+                    errors.concat(JsonManager.validateSchema(schema[keys[i]]));
                 }
                 else {
                     if (JsonManager.isString(schema[keys[i]])) {
                         if (!JsonManager.isAllowedField(schema[keys[i]]))
-                            return false;
+                            errors.push(schema[keys[i]]);
                     }
                     else {
-                        return false;
+                        errors.push(schema[keys[i]]);
                     }
                 }
             }
         }
-        return true;
+        return errors;
     }
     static getField(obj) {
         if (this.isNumber(obj))
