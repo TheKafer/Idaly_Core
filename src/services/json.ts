@@ -47,15 +47,14 @@ export class JsonManager {
         return true;
     }
 
-    static validateSchema(schema: any): any[] {
+    static validateSchema(schema: any, errors: string[] = []): any[] {
         const keys = Object.keys(schema);
-        let errors = []
 
         for (let i = 0; i < keys.length; i++) {
             if(JsonManager.isArray(schema[keys[i]])) {
                 if (schema[keys[i]].length === 1) {
                     if (JsonManager.isJson(schema[keys[i]][0])) {
-                        errors.concat(JsonManager.validateSchema(schema[keys[i]][0]));
+                        errors.concat(JsonManager.validateSchema(schema[keys[i]][0], errors));
                     } else {
                         if (JsonManager.isString(schema[keys[i]][0])) {
                             if (!JsonManager.isAllowedField(schema[keys[i]][0])) errors.push(schema[keys[i]][0]);
@@ -68,7 +67,7 @@ export class JsonManager {
                 }
             } else {
                 if (JsonManager.isJson(schema[keys[i]])) {
-                    errors.concat(JsonManager.validateSchema(schema[keys[i]]));
+                    errors.concat(JsonManager.validateSchema(schema[keys[i]], errors));
                 } else {
                     if (JsonManager.isString(schema[keys[i]])) {
                         if (!JsonManager.isAllowedField(schema[keys[i]])) errors.push(schema[keys[i]]);
