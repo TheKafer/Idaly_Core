@@ -57,15 +57,24 @@ class JsonManager {
                     else {
                         if (JsonManager.isString(schema[keys[i]][0])) {
                             if (!JsonManager.isAllowedField(schema[keys[i]][0]))
-                                errors.push(schema[keys[i]][0]);
+                                errors.push({
+                                    message: schema[keys[i]][0],
+                                    param: keys[i]
+                                });
                         }
                         else {
-                            errors.push(schema[keys[i]][0]);
+                            errors.push({
+                                message: schema[keys[i]][0],
+                                param: keys[i]
+                            });
                         }
                     }
                 }
                 else {
-                    errors.push(schema[keys[i]]);
+                    errors.push({
+                        message: schema[keys[i]],
+                        param: keys[i]
+                    });
                 }
             }
             else {
@@ -75,10 +84,16 @@ class JsonManager {
                 else {
                     if (JsonManager.isString(schema[keys[i]])) {
                         if (!JsonManager.isAllowedField(schema[keys[i]]))
-                            errors.push(schema[keys[i]]);
+                            errors.push({
+                                message: schema[keys[i]],
+                                param: keys[i]
+                            });
                     }
                     else {
-                        errors.push(schema[keys[i]]);
+                        errors.push({
+                            message: schema[keys[i]],
+                            param: keys[i]
+                        });
                     }
                 }
             }

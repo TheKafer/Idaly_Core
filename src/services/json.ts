@@ -1,4 +1,5 @@
 import { BadRequestError } from "../errors/bad-request-error";
+import { SchemaErrorInterface } from "../interfaces/schema-error";
 
 export class JsonManager {
     static compare(schema: any, suppliedJson: any, errors: string[] = []): any[] {
@@ -41,7 +42,7 @@ export class JsonManager {
         return errors;
     }
 
-    static validateSchema(schema: any, errors: string[] = []): any[] {
+    static validateSchema(schema: any, errors: SchemaErrorInterface[] = []): SchemaErrorInterface[] {
         const keys = Object.keys(schema);
 
         for (let i = 0; i < keys.length; i++) {
@@ -51,22 +52,37 @@ export class JsonManager {
                         errors.concat(JsonManager.validateSchema(schema[keys[i]][0], errors));
                     } else {
                         if (JsonManager.isString(schema[keys[i]][0])) {
-                            if (!JsonManager.isAllowedField(schema[keys[i]][0])) errors.push(schema[keys[i]][0]);
+                            if (!JsonManager.isAllowedField(schema[keys[i]][0])) errors.push({
+                                message: schema[keys[i]][0],
+                                param: keys[i]
+                            });
                         } else {
-                            errors.push(schema[keys[i]][0]);
+                            errors.push({
+                                message: schema[keys[i]][0],
+                                param: keys[i]
+                            });
                         }
                     }
                 } else {
-                    errors.push(schema[keys[i]]);
+                    errors.push({
+                        message: schema[keys[i]],
+                        param: keys[i]
+                    });
                 }
             } else {
                 if (JsonManager.isJson(schema[keys[i]])) {
                     errors.concat(JsonManager.validateSchema(schema[keys[i]], errors));
                 } else {
                     if (JsonManager.isString(schema[keys[i]])) {
-                        if (!JsonManager.isAllowedField(schema[keys[i]])) errors.push(schema[keys[i]]);
+                        if (!JsonManager.isAllowedField(schema[keys[i]])) errors.push({
+                            message: schema[keys[i]],
+                            param: keys[i]
+                        });
                     } else {
-                        errors.push(schema[keys[i]]);
+                        errors.push({
+                            message: schema[keys[i]],
+                            param: keys[i]
+                        });
                     }
                 }
             }
