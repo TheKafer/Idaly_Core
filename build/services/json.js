@@ -3,51 +3,48 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.JsonManager = void 0;
 const bad_request_error_1 = require("../errors/bad-request-error");
 class JsonManager {
-    static compare(schema, suppliedJson) {
+    static compare(schema, suppliedJson, errors = []) {
         if (JsonManager.isJson(schema) && JsonManager.isJson(suppliedJson))
             throw new bad_request_error_1.BadRequestError('The objects are not JSON');
         const validKeys = Object.keys(schema);
         const receivedKeys = Object.keys(suppliedJson);
-        if (validKeys.length === receivedKeys.length && validKeys.every(value => receivedKeys.indexOf(value))) {
-            for (let i = 0; i < receivedKeys.length; i++) {
-                if (JsonManager.isJson(suppliedJson[receivedKeys[i]])) {
-                    return JsonManager.compare(schema[receivedKeys[i]], suppliedJson[receivedKeys[i]]);
-                }
-                if (JsonManager.isArray(suppliedJson[receivedKeys[i]])) {
-                    let suppliedArray = suppliedJson[receivedKeys[i]];
-                    let validArray = schema[receivedKeys[i]];
-                    const typeField = validArray[0];
-                    for (let j = 0; j < suppliedArray.length; j++) {
-                        if (JsonManager.isJson(typeField)) {
-                            return JsonManager.compare(schema[receivedKeys[i]][0], suppliedJson[receivedKeys[i]][j]);
+        if (!(validKeys.length === receivedKeys.length && validKeys.every(value => receivedKeys.indexOf(value))))
+            throw new bad_request_error_1.BadRequestError('The JSONs are not equal');
+        for (let i = 0; i < receivedKeys.length; i++) {
+            let object = schema[receivedKeys[i]];
+            if (JsonManager.isArray(suppliedJson[receivedKeys[i]])) {
+                let array = suppliedJson[receivedKeys[i]];
+                for (let j = 0; j < array.length; j++) {
+                    if (JsonManager.isJson(array[j])) {
+                        if (object == 'JSON') {
+                            errors.concat(JsonManager.compare(schema[receivedKeys[i]][0], array[j], errors));
                         }
                         else {
-                            if (typeField == 'DATE') {
-                                if (JsonManager.getField(suppliedJson[receivedKeys[i]][j]) != 'NUMBER')
-                                    return false;
-                            }
-                            else {
-                                if (typeField != JsonManager.getField(suppliedJson[receivedKeys[i]][j]))
-                                    return false;
-                            }
+                            errors.push(array[j]);
                         }
                     }
+                    else {
+                        if (JsonManager.getField(array[j]) != object)
+                            errors.push(array[j]);
+                    }
                 }
-                const typeField = schema[receivedKeys[i]];
-                if (typeField == 'DATE') {
-                    if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != 'NUMBER')
-                        return false;
+            }
+            else {
+                if (JsonManager.isJson(suppliedJson[receivedKeys[i]])) {
+                    if (object == 'JSON') {
+                        errors.concat(JsonManager.compare(schema[receivedKeys[i]], suppliedJson[receivedKeys[i]], errors));
+                    }
+                    else {
+                        errors.push(suppliedJson[receivedKeys[i]]);
+                    }
                 }
                 else {
-                    if (typeField != JsonManager.getField(suppliedJson[receivedKeys[i]]))
-                        return false;
+                    if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != object)
+                        errors.push(suppliedJson[receivedKeys[i]]);
                 }
             }
         }
-        else {
-            return false;
-        }
-        return true;
+        return errors;
     }
     static validateSchema(schema, errors = []) {
         const keys = Object.keys(schema);
