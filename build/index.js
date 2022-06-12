@@ -30,6 +30,7 @@ __exportStar(require("./middlewares/error-handler"), exports);
 __exportStar(require("./middlewares/passwords-not-match"), exports);
 __exportStar(require("./middlewares/require-auth"), exports);
 __exportStar(require("./middlewares/validate-request"), exports);
+__exportStar(require("./middlewares/validate-schema"), exports);
 __exportStar(require("./services/token"), exports);
 __exportStar(require("./services/json"), exports);
 __exportStar(require("./events/base-listener"), exports);

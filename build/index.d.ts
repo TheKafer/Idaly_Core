@@ -14,6 +14,7 @@ export * from './middlewares/error-handler';
 export * from './middlewares/passwords-not-match';
 export * from './middlewares/require-auth';
 export * from './middlewares/validate-request';
+export * from './middlewares/validate-schema';
 export * from './services/token';
 export * from './services/json';
 export * from './events/base-listener';
