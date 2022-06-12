@@ -9,7 +9,7 @@ class JsonManager {
         const validKeys = Object.keys(schema);
         const receivedKeys = Object.keys(suppliedJson);
         if (!(validKeys.length === receivedKeys.length && validKeys.every(value => receivedKeys.indexOf(value))))
-            throw new bad_request_error_1.BadRequestError('The JSONs are not equal');
+            throw new bad_request_error_1.BadRequestError('The JSON does not follow the schema');
         for (let i = 0; i < receivedKeys.length; i++) {
             let object = schema[receivedKeys[i]];
             if (JsonManager.isArray(suppliedJson[receivedKeys[i]])) {
