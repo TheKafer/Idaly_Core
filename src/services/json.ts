@@ -3,7 +3,7 @@ import { SchemaErrorInterface } from "../interfaces/schema-error";
 
 export class JsonManager {
     static compare(schema: any, suppliedJson: any, errors: string[] = []): any[] {
-        if (JsonManager.isJson(schema) && JsonManager.isJson(suppliedJson)) throw new BadRequestError('The objects are not JSON');
+        if (!(JsonManager.isJson(schema) && JsonManager.isJson(suppliedJson))) throw new BadRequestError('The object is not JSON');
 
         const validKeys = Object.keys(schema);
         const receivedKeys = Object.keys(suppliedJson);

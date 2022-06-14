@@ -4,8 +4,8 @@ exports.JsonManager = void 0;
 const bad_request_error_1 = require("../errors/bad-request-error");
 class JsonManager {
     static compare(schema, suppliedJson, errors = []) {
-        if (JsonManager.isJson(schema) && JsonManager.isJson(suppliedJson))
-            throw new bad_request_error_1.BadRequestError('The objects are not JSON');
+        if (!(JsonManager.isJson(schema) && JsonManager.isJson(suppliedJson)))
+            throw new bad_request_error_1.BadRequestError('The object is not JSON');
         const validKeys = Object.keys(schema);
         const receivedKeys = Object.keys(suppliedJson);
         if (!(validKeys.length === receivedKeys.length && validKeys.every(value => receivedKeys.indexOf(value))))
