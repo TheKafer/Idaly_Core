@@ -20,12 +20,19 @@ class JsonManager {
                             errors.concat(JsonManager.compare(schema[receivedKeys[i]][0], array[j], errors));
                         }
                         else {
-                            errors.push(array[j]);
+                            errors.push({
+                                message: 'It has an element that is not a JSON',
+                                param: receivedKeys[i]
+                            });
                         }
                     }
                     else {
-                        if (JsonManager.getField(array[j]) != object)
-                            errors.push(array[j]);
+                        if (JsonManager.getField(array[j]) != object) {
+                            errors.push({
+                                message: `It has an element that is not a ${object}`,
+                                param: receivedKeys[i]
+                            });
+                        }
                     }
                 }
             }
@@ -35,12 +42,19 @@ class JsonManager {
                         errors.concat(JsonManager.compare(schema[receivedKeys[i]], suppliedJson[receivedKeys[i]], errors));
                     }
                     else {
-                        errors.push(suppliedJson[receivedKeys[i]]);
+                        errors.push({
+                            message: 'It should be a JSON',
+                            param: receivedKeys[i]
+                        });
                     }
                 }
                 else {
-                    if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != object)
-                        errors.push(suppliedJson[receivedKeys[i]]);
+                    if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != object) {
+                        errors.push({
+                            message: `It should be a ${object}`,
+                            param: receivedKeys[i]
+                        });
+                    }
                 }
             }
         }

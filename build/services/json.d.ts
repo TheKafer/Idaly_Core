@@ -1,6 +1,6 @@
 import { SchemaErrorInterface } from "../interfaces/schema-error";
 export declare class JsonManager {
-    static compare(schema: any, suppliedJson: any, errors?: string[]): any[];
+    static compare(schema: any, suppliedJson: any, errors?: SchemaErrorInterface[]): SchemaErrorInterface[];
     static validateSchema(schema: any, errors?: SchemaErrorInterface[]): SchemaErrorInterface[];
     static getField(obj: any): string;
     static isAllowedField(obj: string): boolean;
