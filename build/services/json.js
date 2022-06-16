@@ -11,30 +11,14 @@ class JsonManager {
         if (!(validKeys.length === receivedKeys.length && validKeys.every(value => receivedKeys.indexOf(value) != -1)))
             throw new bad_request_error_1.BadRequestError('The JSON does not follow the schema');
         for (let i = 0; i < receivedKeys.length; i++) {
-            let object;
-            if (JsonManager.isArray(schema[receivedKeys[i]])) {
-                if (JsonManager.getField(schema[receivedKeys[i]][0]) == 'JSON') {
-                    object = 'JSON';
-                }
-                else {
-                    object = schema[receivedKeys[i]][0];
-                }
-            }
-            else {
-                if (JsonManager.getField(schema[receivedKeys[i]]) == 'JSON') {
-                    object = 'JSON';
-                }
-                else {
-                    object = schema[receivedKeys[i]];
-                }
-            }
-            if (object == 'DATE')
-                object = 'NUMBER';
+            let field = JsonManager.getFieldOfSchema(schema[receivedKeys[i]]);
+            if (field == 'DATE')
+                field = 'NUMBER';
             if (JsonManager.isArray(suppliedJson[receivedKeys[i]])) {
                 let array = suppliedJson[receivedKeys[i]];
                 for (let j = 0; j < array.length; j++) {
                     if (JsonManager.isJson(array[j])) {
-                        if (object == 'JSON') {
+                        if (field == 'JSON') {
                             errors.concat(JsonManager.compare(schema[receivedKeys[i]][0], array[j], errors));
                         }
                         else {
@@ -45,9 +29,9 @@ class JsonManager {
                         }
                     }
                     else {
-                        if (JsonManager.getField(array[j]) != object) {
+                        if (JsonManager.getField(array[j]) != field) {
                             errors.push({
-                                message: `It has an element that is not a ${object}`,
+                                message: `It has an element that is not a ${field}`,
                                 param: receivedKeys[i]
                             });
                         }
@@ -56,7 +40,7 @@ class JsonManager {
             }
             else {
                 if (JsonManager.isJson(suppliedJson[receivedKeys[i]])) {
-                    if (object == 'JSON') {
+                    if (field == 'JSON') {
                         errors.concat(JsonManager.compare(schema[receivedKeys[i]], suppliedJson[receivedKeys[i]], errors));
                     }
                     else {
@@ -67,9 +51,9 @@ class JsonManager {
                     }
                 }
                 else {
-                    if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != object) {
+                    if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != field) {
                         errors.push({
-                            message: `It should be a ${object}`,
+                            message: `It should be a ${field}`,
                             param: receivedKeys[i]
                         });
                     }
@@ -131,6 +115,16 @@ class JsonManager {
             }
         }
         return errors;
+    }
+    static getFieldOfSchema(obj) {
+        let field;
+        if (JsonManager.isArray(obj)) {
+            field = JsonManager.getField(obj[0]) == 'JSON' ? 'JSON' : obj[0];
+        }
+        else {
+            field = JsonManager.getField(obj) == 'JSON' ? 'JSON' : obj;
+        }
+        return field;
     }
     static getField(obj) {
         if (this.isNumber(obj))
