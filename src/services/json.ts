@@ -11,7 +11,22 @@ export class JsonManager {
         if (!(validKeys.length === receivedKeys.length && validKeys.every(value => receivedKeys.indexOf(value) != -1))) throw new BadRequestError('The JSON does not follow the schema');
 
         for (let i = 0; i < receivedKeys.length; i++) {
-            let object = schema[receivedKeys[i]];
+            let object;
+            if (JsonManager.isArray(schema[receivedKeys[i]])) {
+                if (JsonManager.getField(schema[receivedKeys[i]][0]) == 'JSON') {
+                    object = 'JSON'
+                } else {
+                    object = schema[receivedKeys[i]][0];
+                }
+            } else {
+                if (JsonManager.getField(schema[receivedKeys[i]]) == 'JSON') {
+                    object = 'JSON'
+                } else {
+                    object = schema[receivedKeys[i]];
+                }
+            }
+
+            if (object == 'DATE') object = 'NUMBER';
         
             if(JsonManager.isArray(suppliedJson[receivedKeys[i]])) {
                 let array = suppliedJson[receivedKeys[i]];
