@@ -12,8 +12,6 @@ export class JsonManager {
 
         for (let i = 0; i < receivedKeys.length; i++) {
             let field = JsonManager.getFieldOfSchema(schema[receivedKeys[i]]);
-
-            if (field == 'DATE') field = 'NUMBER';
         
             if(JsonManager.isArray(suppliedJson[receivedKeys[i]])) {
                 let array = suppliedJson[receivedKeys[i]];
@@ -29,11 +27,20 @@ export class JsonManager {
                             });
                         }
                     } else {
-                        if (JsonManager.getField(array[j]) != field) {
-                            errors.push({
-                                message: `It has an element that is not a ${field}`,
-                                param: receivedKeys[i]
-                            });
+                        if (field == 'DATE') {
+                            if (JsonManager.getField(array[j]) != 'NUMBER' && array[j] < 0) {
+                                errors.push({
+                                    message: 'It has a element that it should be a date with timestamp format',
+                                    param: receivedKeys[i]
+                                });
+                            }
+                        } else {
+                            if (JsonManager.getField(array[j]) != field) {
+                                errors.push({
+                                    message: `It has an element that is not a ${field}`,
+                                    param: receivedKeys[i]
+                                });
+                            }
                         }
                     }
                 }
@@ -48,11 +55,20 @@ export class JsonManager {
                         });
                     }
                 } else {
-                    if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != field) {
-                        errors.push({
-                            message: `It should be a ${field}`,
-                            param: receivedKeys[i]
-                        });
+                    if (field == 'DATE') {
+                        if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != 'NUMBER' && suppliedJson[receivedKeys[i]] < 0) {
+                            errors.push({
+                                message: 'It should be a Date with timestamp format',
+                                param: receivedKeys[i]
+                            });
+                        }
+                    } else {
+                        if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != field) {
+                            errors.push({
+                                message: `It should be a ${field}`,
+                                param: receivedKeys[i]
+                            });
+                        }
                     }
                 }
             }
