@@ -28,11 +28,19 @@ class JsonManager {
                     }
                     else {
                         if (field == 'DATE') {
-                            if (JsonManager.getField(array[j]) != 'NUMBER' && array[j] < 0) {
+                            if (JsonManager.getField(array[j]) != 'NUMBER') {
                                 errors.push({
                                     message: 'It has a element that it should be a date with timestamp format',
                                     param: receivedKeys[i]
                                 });
+                            }
+                            else {
+                                if (array[j] < 0) {
+                                    errors.push({
+                                        message: 'It has a element that it should be a date with timestamp format',
+                                        param: receivedKeys[i]
+                                    });
+                                }
                             }
                         }
                         else {
@@ -60,11 +68,19 @@ class JsonManager {
                 }
                 else {
                     if (field == 'DATE') {
-                        if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != 'NUMBER' && suppliedJson[receivedKeys[i]] < 0) {
+                        if (JsonManager.getField(suppliedJson[receivedKeys[i]]) != 'NUMBER') {
                             errors.push({
                                 message: 'It should be a Date with timestamp format',
                                 param: receivedKeys[i]
                             });
+                        }
+                        else {
+                            if (suppliedJson[receivedKeys[i]] < 0) {
+                                errors.push({
+                                    message: 'It should be a Date with timestamp format',
+                                    param: receivedKeys[i]
+                                });
+                            }
                         }
                     }
                     else {
