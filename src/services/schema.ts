@@ -94,8 +94,6 @@ export class SchemaManager {
     static validateSchema(schema: any, errors: SchemaErrorInterface[] = []): SchemaErrorInterface[] {
         const keys = Object.keys(schema);
 
-        errors.concat(SchemaManager.hasRepeatedKeys(keys));
-
         for (let i = 0; i < keys.length; i++) {
             if(SchemaManager.isArray(schema[keys[i]])) {
                 if (schema[keys[i]].length === 1) {
