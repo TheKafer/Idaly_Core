@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { SchemaError } from "../errors/schema-error";
 import { SchemaErrors } from "../errors/schema-errors";
-import { JsonManager } from "../services/json";
+import { SchemaManager } from "../services/schema";
 
 export const validateSchemaRequest = (
     req: Request,
@@ -9,7 +9,7 @@ export const validateSchemaRequest = (
     next: NextFunction
 ) => {
     const { schema } = req.body;
-    const errorsSchema = JsonManager.validateSchema(schema);
+    const errorsSchema = SchemaManager.validateSchema(schema);
 
     const errors: SchemaError[] = [];
 

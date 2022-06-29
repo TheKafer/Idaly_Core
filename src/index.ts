@@ -18,7 +18,7 @@ export * from './middlewares/validate-request';
 export * from './middlewares/validate-schema';
 
 export * from './services/token';
-export * from './services/json';
+export * from './services/schema';
 
 export * from './events/base-listener';
 export * from './events/base-publisher';
