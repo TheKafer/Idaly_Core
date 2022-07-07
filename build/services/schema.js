@@ -131,7 +131,7 @@ class SchemaManager {
     static validateArrayOfSchema(array, key, errors) {
         if (array.length === 1) {
             if (SchemaManager.isArray(array[0]))
-                errors.concat(SchemaManager.validateArrayOfSchema(array, key, errors));
+                errors.concat(SchemaManager.validateArrayOfSchema(array[0], key, errors));
             if (SchemaManager.isJson(array[0]))
                 errors.concat(SchemaManager.validateSchema(array[0], errors));
             if (SchemaManager.isString(array[0])) {
