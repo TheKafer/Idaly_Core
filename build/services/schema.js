@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SchemaManager = void 0;
 const bad_request_error_1 = require("../errors/bad-request-error");
+const types_1 = require("../enums/types");
 class SchemaManager {
     static compare(schema, suppliedJson, errors = []) {
         if (!(SchemaManager.isJson(schema) && SchemaManager.isJson(suppliedJson)))
@@ -13,50 +14,11 @@ class SchemaManager {
         for (let i = 0; i < receivedKeys.length; i++) {
             let field = SchemaManager.getFieldOfSchema(schema[receivedKeys[i]]);
             if (SchemaManager.isArray(suppliedJson[receivedKeys[i]])) {
-                let array = suppliedJson[receivedKeys[i]];
-                for (let j = 0; j < array.length; j++) {
-                    if (SchemaManager.isJson(array[j])) {
-                        if (field == 'JSON') {
-                            errors.concat(SchemaManager.compare(schema[receivedKeys[i]][0], array[j], errors));
-                        }
-                        else {
-                            errors.push({
-                                message: 'It has an element that is not a JSON',
-                                param: receivedKeys[i]
-                            });
-                        }
-                    }
-                    else {
-                        if (field == 'DATE') {
-                            if (SchemaManager.getField(array[j]) != 'NUMBER') {
-                                errors.push({
-                                    message: 'It has a element that it should be a date with timestamp format',
-                                    param: receivedKeys[i]
-                                });
-                            }
-                            else {
-                                if (array[j] < 0) {
-                                    errors.push({
-                                        message: 'It has a element that it should be a date with timestamp format',
-                                        param: receivedKeys[i]
-                                    });
-                                }
-                            }
-                        }
-                        else {
-                            if (SchemaManager.getField(array[j]) != field) {
-                                errors.push({
-                                    message: `It has an element that is not a ${field}`,
-                                    param: receivedKeys[i]
-                                });
-                            }
-                        }
-                    }
-                }
+                errors.concat(SchemaManager.compareArray(receivedKeys[i], suppliedJson[receivedKeys[i]], schema[receivedKeys[i]], errors));
             }
             else {
                 if (SchemaManager.isJson(suppliedJson[receivedKeys[i]])) {
-                    if (field == 'JSON') {
+                    if (field == types_1.Types.json) {
                         errors.concat(SchemaManager.compare(schema[receivedKeys[i]], suppliedJson[receivedKeys[i]], errors));
                     }
                     else {
@@ -67,7 +29,7 @@ class SchemaManager {
                     }
                 }
                 else {
-                    if (field == 'DATE') {
+                    if (field == types_1.Types.date) {
                         if (SchemaManager.getField(suppliedJson[receivedKeys[i]]) != 'NUMBER') {
                             errors.push({
                                 message: 'It should be a Date with timestamp format',
@@ -96,36 +58,52 @@ class SchemaManager {
         }
         return errors;
     }
+    static compareArray(key, array, schemaArray, errors) {
+        for (let i = 0; i < array.length; i++) {
+            if (SchemaManager.isJson(schemaArray[0])) {
+                if (SchemaManager.isJson(array[i])) {
+                    errors.concat(SchemaManager.compare(array[i], schemaArray[0], errors));
+                }
+                else {
+                    errors.push({
+                        message: 'It has an element that is not a JSON',
+                        param: key
+                    });
+                }
+            }
+            else if (SchemaManager.isArray(schemaArray[0])) {
+                if (SchemaManager.isArray(array[i])) {
+                    errors.concat(SchemaManager.compareArray(key, array[i], schemaArray[0], errors));
+                }
+                else {
+                    errors.push({
+                        message: 'It has an element that is not a Array',
+                        param: key
+                    });
+                }
+            }
+            else if (schemaArray[0] == types_1.Types.date) {
+                if (SchemaManager.isNumber(array[i]) && array[i] < 0) {
+                    errors.push({
+                        message: 'It has a element that it should be a date with timestamp format',
+                        param: key
+                    });
+                }
+            }
+            else if (SchemaManager.getField(array[i]) != schemaArray[0]) {
+                errors.push({
+                    message: `It has an element that is not a ${schemaArray[0]}`,
+                    param: key
+                });
+            }
+        }
+        return errors;
+    }
     static validateSchema(schema, errors = []) {
         const keys = Object.keys(schema);
         for (let i = 0; i < keys.length; i++) {
             if (SchemaManager.isArray(schema[keys[i]])) {
-                if (schema[keys[i]].length === 1) {
-                    if (SchemaManager.isJson(schema[keys[i]][0])) {
-                        errors.concat(SchemaManager.validateSchema(schema[keys[i]][0], errors));
-                    }
-                    else {
-                        if (SchemaManager.isString(schema[keys[i]][0])) {
-                            if (!SchemaManager.isAllowedField(schema[keys[i]][0]))
-                                errors.push({
-                                    message: schema[keys[i]][0],
-                                    param: keys[i]
-                                });
-                        }
-                        else {
-                            errors.push({
-                                message: schema[keys[i]][0],
-                                param: keys[i]
-                            });
-                        }
-                    }
-                }
-                else {
-                    errors.push({
-                        message: schema[keys[i]],
-                        param: keys[i]
-                    });
-                }
+                SchemaManager.validateArrayOfSchema(schema[keys[i]], keys[i], errors);
             }
             else {
                 if (SchemaManager.isJson(schema[keys[i]])) {
@@ -150,43 +128,136 @@ class SchemaManager {
         }
         return errors;
     }
-    static hasRepeatedKeys(keys) {
-        let errors = [];
-        for (let i = 0; keys.length; i++) {
-            if (keys.filter(key => key == keys[i]).length > 1) {
+    static validateArrayOfSchema(array, key, errors) {
+        if (array.length === 1) {
+            if (SchemaManager.isArray(array[0]))
+                errors.concat(SchemaManager.validateArrayOfSchema(array, key, errors));
+            if (SchemaManager.isJson(array[0]))
+                errors.concat(SchemaManager.validateSchema(array[0], errors));
+            if (SchemaManager.isString(array[0])) {
+                if (!SchemaManager.isAllowedField(array[0]))
+                    errors.push({
+                        message: array[0],
+                        param: key
+                    });
+            }
+            else {
                 errors.push({
-                    message: 'The JSON contains a repeated key',
-                    param: keys[i]
+                    message: array[0],
+                    param: key
                 });
             }
         }
+        else {
+            errors.push({
+                message: 'The array contains more than one element',
+                param: key
+            });
+        }
         return errors;
+    }
+    static getNodes(schema, nodes = [], level = 0) {
+        const keys = Object.keys(schema);
+        for (let i = 0; i < keys.length; i++) {
+            if (SchemaManager.isArray(schema[keys[i]])) {
+                if (SchemaManager.isJson(schema[keys[i]][0])) {
+                    nodes.push({
+                        name: keys[i],
+                        level: level,
+                        type: types_1.Types.json_array
+                    });
+                }
+                else {
+                    if (SchemaManager.isArray(schema[keys[i]][0])) {
+                        nodes.push({
+                            name: keys[i],
+                            level: level,
+                            type: types_1.Types.array_array
+                        });
+                    }
+                    else {
+                        if (schema[keys[i]][0] == types_1.Types.date) {
+                            nodes.push({
+                                name: keys[i],
+                                level: level,
+                                type: types_1.Types.date_array
+                            });
+                        }
+                        if (schema[keys[i]][0] == types_1.Types.number) {
+                            nodes.push({
+                                name: keys[i],
+                                level: level,
+                                type: types_1.Types.number_array
+                            });
+                        }
+                        if (schema[keys[i]][0] == types_1.Types.string) {
+                            nodes.push({
+                                name: keys[i],
+                                level: level,
+                                type: types_1.Types.string_array
+                            });
+                        }
+                        if (schema[keys[i]][0] == types_1.Types.boolean) {
+                            nodes.push({
+                                name: keys[i],
+                                level: level,
+                                type: types_1.Types.boolean_array
+                            });
+                        }
+                    }
+                }
+            }
+            else {
+                if (SchemaManager.isJson(schema[keys[i]])) {
+                    nodes.concat(SchemaManager.getNodes(schema[keys[i]], nodes, level++));
+                }
+                else {
+                    nodes.push({
+                        name: keys[i],
+                        level: level,
+                        type: schema[keys[i]]
+                    });
+                }
+            }
+        }
+        return nodes;
     }
     static getFieldOfSchema(obj) {
         let field;
         if (SchemaManager.isArray(obj)) {
-            field = SchemaManager.getField(obj[0]) == 'JSON' ? 'JSON' : obj[0];
+            field = SchemaManager.getField(obj[0]) == types_1.Types.json ? types_1.Types.json : obj[0];
         }
         else {
-            field = SchemaManager.getField(obj) == 'JSON' ? 'JSON' : obj;
+            field = SchemaManager.getField(obj) == types_1.Types.json ? types_1.Types.json : obj;
         }
         return field;
     }
     static getField(obj) {
         if (this.isNumber(obj))
-            return 'NUMBER';
+            return types_1.Types.number;
         if (this.isString(obj))
-            return 'STRING';
+            return types_1.Types.string;
         if (this.isBoolean(obj))
-            return 'BOOLEAN';
+            return types_1.Types.boolean;
         if (this.isJson(obj))
-            return 'JSON';
-        if (this.isArray(obj))
-            return 'ARRAY';
+            return types_1.Types.json;
+        if (this.isArray(obj)) {
+            if (this.isNumber(obj[0]))
+                return types_1.Types.number_array;
+            if (this.isString(obj[0]))
+                return types_1.Types.string_array;
+            if (this.isBoolean(obj[0]))
+                return types_1.Types.boolean_array;
+            if (this.isJson(obj[0]))
+                return types_1.Types.json_array;
+            if (this.isArray(obj[0]))
+                return types_1.Types.array_array;
+        }
+        ;
         throw new Error('The Field is not supported');
     }
     static isAllowedField(obj) {
-        return obj.toUpperCase() == 'NUMBER' || obj.toUpperCase() == 'STRING' || obj.toUpperCase() == 'DATE' || obj.toUpperCase() == 'BOOLEAN';
+        return obj.toUpperCase() == types_1.Types.number || obj.toUpperCase() == types_1.Types.string || obj.toUpperCase() == types_1.Types.date || obj.toUpperCase() == types_1.Types.boolean;
     }
     static isJson(obj) {
         return obj !== undefined && obj !== null && obj.constructor == Object;

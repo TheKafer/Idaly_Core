@@ -39,3 +39,5 @@ __exportStar(require("./events/sensor-created-event"), exports);
 __exportStar(require("./events/sensor-deleted-event"), exports);
 __exportStar(require("./events/subjects"), exports);
 __exportStar(require("./interfaces/schema-error"), exports);
+__exportStar(require("./interfaces/node"), exports);
+__exportStar(require("./enums/types"), exports);
