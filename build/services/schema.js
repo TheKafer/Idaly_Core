@@ -130,11 +130,13 @@ class SchemaManager {
     }
     static validateArrayOfSchema(array, key, errors) {
         if (array.length === 1) {
-            if (SchemaManager.isArray(array[0]))
+            if (SchemaManager.isArray(array[0])) {
                 errors.concat(SchemaManager.validateArrayOfSchema(array[0], key, errors));
-            if (SchemaManager.isJson(array[0]))
+            }
+            else if (SchemaManager.isJson(array[0])) {
                 errors.concat(SchemaManager.validateSchema(array[0], errors));
-            if (SchemaManager.isString(array[0])) {
+            }
+            else if (SchemaManager.isString(array[0])) {
                 if (!SchemaManager.isAllowedField(array[0]))
                     errors.push({
                         message: array[0],
