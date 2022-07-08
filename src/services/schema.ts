@@ -61,7 +61,7 @@ export class SchemaManager {
         for (let i = 0; i < array.length; i++) {
             if (SchemaManager.isJson(schemaArray[0])) {
                 if (SchemaManager.isJson(array[i])) {
-                    errors.concat(SchemaManager.compare(array[i], schemaArray[0], errors));
+                    errors.concat(SchemaManager.compare(schemaArray[0], array[i],errors));
                 } else {
                     errors.push({
                         message: 'It has an element that is not a JSON',
