@@ -166,68 +166,71 @@ class SchemaManager {
         }
         return errors;
     }
-    static getNodes(schema, nodes = [], level = 0) {
+    static getNodes(schema, nodes = [], level = 0, parentName = "json.") {
         const keys = Object.keys(schema);
         for (let i = 0; i < keys.length; i++) {
             if (SchemaManager.isArray(schema[keys[i]])) {
                 if (SchemaManager.isJson(schema[keys[i]][0])) {
                     nodes.push({
-                        name: keys[i],
+                        name: parentName + keys[i],
                         level: level,
-                        type: types_1.Types.json_array
+                        type: types_1.Types.json_array,
+                        parentName: parentName
+                    });
+                }
+                else if (SchemaManager.isArray(schema[keys[i]][0])) {
+                    nodes.push({
+                        name: parentName + keys[i],
+                        level: level,
+                        type: types_1.Types.array_array,
+                        parentName: parentName
                     });
                 }
                 else {
-                    if (SchemaManager.isArray(schema[keys[i]][0])) {
+                    if (schema[keys[i]][0] == types_1.Types.date) {
                         nodes.push({
-                            name: keys[i],
+                            name: parentName + keys[i],
                             level: level,
-                            type: types_1.Types.array_array
+                            type: types_1.Types.date_array,
+                            parentName: parentName
                         });
                     }
-                    else {
-                        if (schema[keys[i]][0] == types_1.Types.date) {
-                            nodes.push({
-                                name: keys[i],
-                                level: level,
-                                type: types_1.Types.date_array
-                            });
-                        }
-                        if (schema[keys[i]][0] == types_1.Types.number) {
-                            nodes.push({
-                                name: keys[i],
-                                level: level,
-                                type: types_1.Types.number_array
-                            });
-                        }
-                        if (schema[keys[i]][0] == types_1.Types.string) {
-                            nodes.push({
-                                name: keys[i],
-                                level: level,
-                                type: types_1.Types.string_array
-                            });
-                        }
-                        if (schema[keys[i]][0] == types_1.Types.boolean) {
-                            nodes.push({
-                                name: keys[i],
-                                level: level,
-                                type: types_1.Types.boolean_array
-                            });
-                        }
+                    if (schema[keys[i]][0] == types_1.Types.number) {
+                        nodes.push({
+                            name: parentName + keys[i],
+                            level: level,
+                            type: types_1.Types.number_array,
+                            parentName: parentName
+                        });
+                    }
+                    if (schema[keys[i]][0] == types_1.Types.string) {
+                        nodes.push({
+                            name: parentName + keys[i],
+                            level: level,
+                            type: types_1.Types.string_array,
+                            parentName: parentName
+                        });
+                    }
+                    if (schema[keys[i]][0] == types_1.Types.boolean) {
+                        nodes.push({
+                            name: parentName + keys[i],
+                            level: level,
+                            type: types_1.Types.boolean_array,
+                            parentName: parentName
+                        });
                     }
                 }
             }
+            else if (SchemaManager.isJson(schema[keys[i]])) {
+                nodes.concat(SchemaManager.getNodes(schema[keys[i]], nodes, level++, parentName + keys[i] + "."));
+            }
             else {
-                if (SchemaManager.isJson(schema[keys[i]])) {
-                    nodes.concat(SchemaManager.getNodes(schema[keys[i]], nodes, level++));
-                }
-                else {
-                    nodes.push({
-                        name: keys[i],
-                        level: level,
-                        type: schema[keys[i]]
-                    });
-                }
+                nodes.push({
+                    name: parentName + keys[i],
+                    level: level,
+                    type: schema[keys[i]],
+                    parentName: parentName
+                });
             }
         }
         return nodes;

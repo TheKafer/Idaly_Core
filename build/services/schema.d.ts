@@ -5,7 +5,7 @@ export declare class SchemaManager {
     static compareArray(key: string, array: any[], schemaArray: any[], errors: SchemaErrorInterface[]): SchemaErrorInterface[];
     static validateSchema(schema: any, errors?: SchemaErrorInterface[]): SchemaErrorInterface[];
     static validateArrayOfSchema(array: any[], key: string, errors: SchemaErrorInterface[]): SchemaErrorInterface[];
-    static getNodes(schema: any, nodes?: Node[], level?: number): Node[];
+    static getNodes(schema: any, nodes?: Node[], level?: number, parentName?: string): Node[];
     static getFieldOfSchema(obj: any): string;
     static getField(obj: any): string;
     static isAllowedField(obj: string): boolean;
