@@ -141,10 +141,17 @@ export class SchemaManager {
                 });
             }
         } else {
-            errors.push({
-                message: 'The array contains more than one element',
-                param: key
-            });
+            if (array.length === 0) {
+                errors.push({
+                    message: 'The array is empty',
+                    param: key
+                });
+            } else {
+                errors.push({
+                    message: 'The array contains more than one element',
+                    param: key
+                });
+            }
         }
 
         return errors;
