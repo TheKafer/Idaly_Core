@@ -2,5 +2,6 @@ import { Types } from "../enums/types";
 
 export interface Argument {
     type: Types[];
-    order: number
+    order: number;
+    info: string;
 }

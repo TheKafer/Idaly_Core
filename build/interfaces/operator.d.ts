@@ -4,4 +4,5 @@ export interface Operator {
     name: string;
     type: OperatorTypes;
     arguments: Argument[];
+    return: OperatorTypes;
 }
