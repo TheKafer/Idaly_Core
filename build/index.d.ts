@@ -24,4 +24,7 @@ export * from './events/sensor-deleted-event';
 export * from './events/subjects';
 export * from './interfaces/schema-error';
 export * from './interfaces/node';
+export * from './interfaces/operator';
+export * from './interfaces/argument';
+export * from './enums/types';
 export * from './enums/types';
