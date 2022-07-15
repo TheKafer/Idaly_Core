@@ -1,4 +1,4 @@
 export interface DataGraph {
-    x: string;
-    y: string;
+    x: any;
+    y: any;
 }
