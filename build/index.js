@@ -42,5 +42,6 @@ __exportStar(require("./interfaces/schema-error"), exports);
 __exportStar(require("./interfaces/node"), exports);
 __exportStar(require("./interfaces/operator"), exports);
 __exportStar(require("./interfaces/argument"), exports);
+__exportStar(require("./interfaces/data-graph"), exports);
 __exportStar(require("./enums/types"), exports);
 __exportStar(require("./enums/types"), exports);
