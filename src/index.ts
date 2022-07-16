@@ -31,6 +31,8 @@ export * from './interfaces/node';
 export * from './interfaces/operator';
 export * from './interfaces/argument';
 export * from './interfaces/data-graph';
+export * from './interfaces/equation-element';
 
 export * from './enums/types';
-export * from './enums/types';
+export * from './enums/operator-types';
+export * from './enums/equation-elements';
