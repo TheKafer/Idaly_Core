@@ -9,6 +9,8 @@ export * from './errors/route-not-found-error';
 export * from './errors/not-found-error';
 export * from './errors/schema-error';
 export * from './errors/schema-errors';
+export * from './errors/equation-error';
+export * from './errors/equation-errors';
 
 export * from './middlewares/current-user';
 export * from './middlewares/error-handler';
@@ -32,6 +34,7 @@ export * from './interfaces/operator';
 export * from './interfaces/argument';
 export * from './interfaces/data-graph';
 export * from './interfaces/equation-element';
+export * from './interfaces/equation-error';
 
 export * from './enums/types';
 export * from './enums/operator-types';
