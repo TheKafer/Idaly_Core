@@ -6,5 +6,5 @@ export interface Operator {
     name: string;
     type: OperatorTypes;
     arguments?: Argument[];
-    return: Types;
+    return?: Types;
 }
