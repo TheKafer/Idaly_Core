@@ -5,4 +5,5 @@ var OperatorTypes;
 (function (OperatorTypes) {
     OperatorTypes["method"] = "METHOD";
     OperatorTypes["simple"] = "SIMPLE";
+    OperatorTypes["grouping"] = "GROUPING";
 })(OperatorTypes = exports.OperatorTypes || (exports.OperatorTypes = {}));

@@ -1,6 +1,5 @@
 import { BadRequestError } from "../errors/bad-request-error";
 import { SchemaErrorInterface } from "../interfaces/schema-error";
-import { Node } from "../interfaces/node";
 import { Types } from "../enums/types";
 
 export class SchemaManager {

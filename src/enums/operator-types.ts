@@ -1,4 +1,5 @@
 export enum  OperatorTypes {
     method = 'METHOD',
-    simple = 'SIMPLE'
+    simple = 'SIMPLE',
+    grouping = 'GROUPING'
 }
