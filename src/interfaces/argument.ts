@@ -1,7 +1,7 @@
 import { Types } from "../enums/types";
 
 export interface Argument {
-    type: Types;
+    allowedTypes: Types[];
     order: number;
     info: string;
 }
