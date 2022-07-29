@@ -10,7 +10,7 @@ export enum  Types {
     date_array = 'DATE_ARRAY',
     json_array = 'JSON_ARRAY',
     array_array = 'ARRAY_ARRAY',
-    numer_node = 'NUMBER_NODE',
+    number_node = 'NUMBER_NODE',
     string_node = 'STRING_NODE',
     boolean_node = 'BOOLEAN_NODE',
     date_node = 'DATE_NODE',

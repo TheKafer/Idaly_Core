@@ -14,7 +14,7 @@ var Types;
     Types["date_array"] = "DATE_ARRAY";
     Types["json_array"] = "JSON_ARRAY";
     Types["array_array"] = "ARRAY_ARRAY";
-    Types["numer_node"] = "NUMBER_NODE";
+    Types["number_node"] = "NUMBER_NODE";
     Types["string_node"] = "STRING_NODE";
     Types["boolean_node"] = "BOOLEAN_NODE";
     Types["date_node"] = "DATE_NODE";
