@@ -14,6 +14,7 @@ export declare enum Types {
     string_node = "STRING_NODE",
     boolean_node = "BOOLEAN_NODE",
     date_node = "DATE_NODE",
+    json_node = "JSON_NODE",
     number_array_node = "NUMBER_ARRAY_NODE",
     string_array_node = "STRING_ARRAY_NODE",
     boolean_array_node = "BOOLEAN_ARRAY_NODE",

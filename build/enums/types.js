@@ -18,6 +18,7 @@ var Types;
     Types["string_node"] = "STRING_NODE";
     Types["boolean_node"] = "BOOLEAN_NODE";
     Types["date_node"] = "DATE_NODE";
+    Types["json_node"] = "JSON_NODE";
     Types["number_array_node"] = "NUMBER_ARRAY_NODE";
     Types["string_array_node"] = "STRING_ARRAY_NODE";
     Types["boolean_array_node"] = "BOOLEAN_ARRAY_NODE";
