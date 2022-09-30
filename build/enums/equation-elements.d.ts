@@ -5,5 +5,6 @@ export declare enum EquationElements {
     boolean = "BOOLEAN",
     node = "NODE",
     open_parenthesis = "(",
-    close_parenthesis = ")"
+    close_parenthesis = ")",
+    node_summation = "NODE_SUMMATION"
 }

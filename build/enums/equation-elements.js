@@ -10,4 +10,5 @@ var EquationElements;
     EquationElements["node"] = "NODE";
     EquationElements["open_parenthesis"] = "(";
     EquationElements["close_parenthesis"] = ")";
+    EquationElements["node_summation"] = "NODE_SUMMATION";
 })(EquationElements = exports.EquationElements || (exports.EquationElements = {}));
