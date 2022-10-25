@@ -1,45 +1,51 @@
-import {
-  consumerOpts, ConsumerOptsBuilder, createInbox,
-  JetStreamClient, JsMsg,
-  StringCodec,
-} from 'nats';
-import { Subjects } from './subjects';
-
+import { Message, Stan } from 'node-nats-streaming'
+import { Subjects } from './subjects'
 
 interface Event {
-  subject: Subjects;
-  data: any;
+    subject: Subjects
+    data: any
 }
 
 export abstract class Listener<T extends Event> {
-  abstract subject: T['subject'];
-  abstract queueGroupName: string;
-  protected client: JetStreamClient;
-  protected ackWait=  5 * 1000;
+  abstract subject: T['subject']
+  abstract queueGroupName: string
+  abstract onMessage(data: T['data'], msg: Message): void
+  protected client: Stan
+  protected ackWait = 5 * 1000
 
-  abstract onMessage (data: T['data'], msg: JsMsg): void;
-
-  constructor(client: JetStreamClient) {
-    this.client = client;
+  constructor(client: Stan) {
+    this.client = client
   }
 
   subscriptionOptions() {
-    const opts: ConsumerOptsBuilder = consumerOpts();
-    opts.durable(this.queueGroupName);
-    opts.manualAck();
-    opts.ackExplicit();
-    opts.ackWait(this.ackWait);
-    opts.deliverTo(createInbox());
-    opts.deliverAll();
-    return opts;
+    return this.client
+      .subscriptionOptions()
+      .setDeliverAllAvailable()
+      .setManualAckMode(true)
+      .setAckWait(this.ackWait)
+      .setDurableName(this.queueGroupName);
   }
 
-  async listen () {
-    const sc = StringCodec();
-  
-    const subscription = await this.client.subscribe(this.subject, this.subscriptionOptions());
-      for await (const m of subscription) {
-        this.onMessage(JSON.parse(sc.decode(m.data)), m);
-      }
+  listen() {
+    const subscription = this.client.subscribe(
+      this.subject,
+      this.queueGroupName,
+      this.subscriptionOptions()
+    );
+
+    subscription.on('message', (msg: Message) => {
+      console.log(`Message received: ${this.subject} / ${this.queueGroupName}`);
+
+      const parsedData = this.parseMessage(msg);
+      this.onMessage(parsedData, msg);
+    });
+  }
+
+  parseMessage(msg: Message) {
+    const data = msg.getData();
+
+    return typeof data === 'string'
+      ? JSON.parse(data)
+      : JSON.parse(data.toString('utf8'));
   }
 }

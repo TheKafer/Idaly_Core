@@ -1,4 +1,4 @@
-import { ConsumerOptsBuilder, JetStreamClient, JsMsg } from 'nats';
+import { Message, Stan } from 'node-nats-streaming';
 import { Subjects } from './subjects';
 interface Event {
     subject: Subjects;
@@ -7,11 +7,12 @@ interface Event {
 export declare abstract class Listener<T extends Event> {
     abstract subject: T['subject'];
     abstract queueGroupName: string;
-    protected client: JetStreamClient;
+    abstract onMessage(data: T['data'], msg: Message): void;
+    protected client: Stan;
     protected ackWait: number;
-    abstract onMessage(data: T['data'], msg: JsMsg): void;
-    constructor(client: JetStreamClient);
-    subscriptionOptions(): ConsumerOptsBuilder;
-    listen(): Promise<void>;
+    constructor(client: Stan);
+    subscriptionOptions(): import("node-nats-streaming").SubscriptionOptions;
+    listen(): void;
+    parseMessage(msg: Message): any;
 }
 export {};

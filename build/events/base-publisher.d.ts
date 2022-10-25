@@ -1,4 +1,4 @@
-import { JetStreamClient } from 'nats';
+import { Stan } from 'node-nats-streaming';
 import { Subjects } from './subjects';
 interface Event {
     subject: Subjects;
@@ -6,8 +6,8 @@ interface Event {
 }
 export declare abstract class Publisher<T extends Event> {
     abstract subject: T['subject'];
-    protected client: JetStreamClient;
-    constructor(client: JetStreamClient);
+    protected client: Stan;
+    constructor(client: Stan);
     publish(data: T['data']): Promise<void>;
 }
 export {};
