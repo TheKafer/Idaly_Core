@@ -6,6 +6,7 @@ export declare class SchemaManager {
     static validateArrayOfSchema(array: any[], key: string, errors: SchemaErrorInterface[]): SchemaErrorInterface[];
     static getFieldOfSchema(obj: any): string;
     static getField(obj: any): string;
+    static switchtoUppercase(schema: any): any;
     static isAllowedField(obj: string): boolean;
     static isJson(obj: any): boolean;
     static isArray(obj: any): boolean;

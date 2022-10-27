@@ -182,6 +182,18 @@ export class SchemaManager {
         throw new Error('The Field is not supported');
     }
 
+    static switchtoUppercase(schema: any) {
+        for (let prop in schema) {
+            if (typeof schema[prop] === 'string') {
+              schema[prop] = schema[prop].toUpperCase();
+            }
+            if (typeof schema[prop] === 'object') {
+              this.switchtoUppercase(schema[prop]);
+            }
+        }
+        return schema; 
+    }
+
     static isAllowedField(obj: string): boolean {
         return obj.toUpperCase() == Types.number || obj.toUpperCase() == Types.string || obj.toUpperCase() == Types.date || obj.toUpperCase() == Types.boolean;
     }
