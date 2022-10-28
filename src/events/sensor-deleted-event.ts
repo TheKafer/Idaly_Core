@@ -4,5 +4,6 @@ export interface SensorDeletedEvent {
     subject: Subjects.SensorDeleted;
     data: {
         id: string;
+        version: number;
     };
 }
