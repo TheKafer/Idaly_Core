@@ -22,15 +22,10 @@ export const currentUser = (
     res: Response,
     next: NextFunction
 ) => {
-    console.log('hi...........');
     if (!req.session?.jwt) return next();
 
     try {
         const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!) as UserPayload;
-        console.log(payload.expirationTime);
-        console.log(Date.now());
-        if (payload.expirationTime > Date.now()) throw new BadRequestError(' the session expired');
-
         req.currentUser = payload;
     } catch (err) {}
 
