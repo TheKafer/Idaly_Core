@@ -12,6 +12,8 @@ const currentUser = (req, res, next) => {
         return next();
     try {
         const payload = jsonwebtoken_1.default.verify(req.session.jwt, process.env.JWT_KEY);
+        console.log(payload.expirationTime);
+        console.log(Date.now());
         if (payload.expirationTime > Date.now())
             throw new bad_request_error_1.BadRequestError(' the session expired');
         req.currentUser = payload;
