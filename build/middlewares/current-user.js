@@ -7,6 +7,7 @@ exports.currentUser = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const currentUser = (req, res, next) => {
     var _a;
+    console.log('broooooo------');
     if (!((_a = req.session) === null || _a === void 0 ? void 0 : _a.jwt))
         return next();
     try {
