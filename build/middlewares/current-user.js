@@ -8,6 +8,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bad_request_error_1 = require("../errors/bad-request-error");
 const currentUser = (req, res, next) => {
     var _a;
+    console.log('hi...........');
     if (!((_a = req.session) === null || _a === void 0 ? void 0 : _a.jwt))
         return next();
     try {
