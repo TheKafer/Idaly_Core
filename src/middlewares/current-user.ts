@@ -27,7 +27,6 @@ export const currentUser = (
 
     try {
         const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!) as UserPayload;
-        if (payload.expirationTime < Date.now()) throw new NotAuthorizedError;
         req.currentUser = payload;
     } catch (err) {}
 
