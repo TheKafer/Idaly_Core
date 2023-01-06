@@ -13,8 +13,6 @@ const requireAuth = (req, res, next) => {
     const payload = jsonwebtoken_1.default.verify(req.session.jwt, process.env.JWT_KEY);
     if (payload.expirationTime < Date.now())
         throw new not_authorized_error_1.NotAuthorizedError;
-    if (!req.currentUser)
-        throw new not_authorized_error_1.NotAuthorizedError;
     next();
 };
 exports.requireAuth = requireAuth;
