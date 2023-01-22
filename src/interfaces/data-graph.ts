@@ -1,4 +1,10 @@
 export interface DataGraph {
-    x: any;
-    y: any;
+    x: {
+        input: string,
+        isLabel: boolean
+    };
+    y: {
+        input: string,
+        isLabel: boolean
+    };
 }
