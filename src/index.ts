@@ -33,6 +33,7 @@ export * from './interfaces/node';
 export * from './interfaces/operator';
 export * from './interfaces/argument';
 export * from './interfaces/data-graph';
+export * from './interfaces/data-result';
 export * from './interfaces/equation-element';
 export * from './interfaces/equation-error';
 
