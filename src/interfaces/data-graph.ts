@@ -1,9 +1,9 @@
 export interface DataGraph {
-    x: {
+    x?: {
         input: string,
         isLabel: boolean
     };
-    y: {
+    y?: {
         input: string,
         isLabel: boolean
     };

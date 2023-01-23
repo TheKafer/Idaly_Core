@@ -1,4 +1,4 @@
 export interface DataResult {
-    x: any;
-    y: any;
+    x?: any;
+    y?: any;
 }
