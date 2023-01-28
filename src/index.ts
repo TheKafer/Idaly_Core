@@ -40,3 +40,4 @@ export * from './interfaces/equation-error';
 export * from './enums/types';
 export * from './enums/operator-types';
 export * from './enums/equation-elements';
+export * from './enums/graphTypes';

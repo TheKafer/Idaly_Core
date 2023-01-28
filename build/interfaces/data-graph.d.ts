@@ -1,3 +1,4 @@
+import { GraphTypes } from "../enums/graphTypes";
 export interface DataGraph {
     x?: {
         input: string;
@@ -7,4 +8,5 @@ export interface DataGraph {
         input: string;
         isLabel: boolean;
     };
+    type: GraphTypes;
 }

@@ -51,3 +51,4 @@ __exportStar(require("./interfaces/equation-error"), exports);
 __exportStar(require("./enums/types"), exports);
 __exportStar(require("./enums/operator-types"), exports);
 __exportStar(require("./enums/equation-elements"), exports);
+__exportStar(require("./enums/graphTypes"), exports);
