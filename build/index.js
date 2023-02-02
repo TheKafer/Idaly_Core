@@ -45,6 +45,8 @@ __exportStar(require("./interfaces/node"), exports);
 __exportStar(require("./interfaces/operator"), exports);
 __exportStar(require("./interfaces/argument"), exports);
 __exportStar(require("./interfaces/data-graph"), exports);
+__exportStar(require("./interfaces/data-graph-argument"), exports);
+__exportStar(require("./interfaces/data-result-argument"), exports);
 __exportStar(require("./interfaces/data-result"), exports);
 __exportStar(require("./interfaces/equation-element"), exports);
 __exportStar(require("./interfaces/equation-error"), exports);

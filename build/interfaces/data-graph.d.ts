@@ -1,12 +1,7 @@
 import { GraphTypes } from "../enums/graphTypes";
+import { DataGraphArgument } from "./data-graph-argument";
 export interface DataGraph {
-    x?: {
-        input: string;
-        isLabel: boolean;
-    };
-    y?: {
-        input: string;
-        isLabel: boolean;
-    };
+    x?: DataGraphArgument[];
+    y?: DataGraphArgument[];
     type: GraphTypes;
 }

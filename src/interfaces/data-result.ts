@@ -1,4 +1,6 @@
+import { DataResultArgument } from "./data-result-argument";
+
 export interface DataResult {
-    x?: any,
-    y?: any
+    x?: DataResultArgument,
+    y?: DataResultArgument
 }
