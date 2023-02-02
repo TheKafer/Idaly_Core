@@ -1,4 +1,4 @@
-export interface DataGraphArgument {
+export interface DataGraphInput {
     input: string,
     isLabel: boolean
 }

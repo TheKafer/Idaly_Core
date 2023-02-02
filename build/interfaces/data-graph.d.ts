@@ -1,7 +1,6 @@
 import { GraphTypes } from "../enums/graphTypes";
-import { DataGraphArgument } from "./data-graph-argument";
+import { DataGraphInputs } from "./data-graph-inputs";
 export interface DataGraph {
-    x?: DataGraphArgument[];
-    y?: DataGraphArgument[];
+    inputs: DataGraphInputs[];
     type: GraphTypes;
 }
