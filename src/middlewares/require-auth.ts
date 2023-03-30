@@ -16,7 +16,7 @@ export const requireAuth = (
 ) => {
     if (!req.session?.jwt) return next();
     const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!) as UserPayload;
-    if (payload.expirationTime < Date.now()) throw new NotAuthorizedError;
+    if (payload.expirationTime < Date.now()) req.currentUser = undefined;
 
     next();
 };
