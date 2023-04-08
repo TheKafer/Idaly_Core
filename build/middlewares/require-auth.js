@@ -13,7 +13,7 @@ const requireAuth = (req, res, next) => {
     }
     const payload = jsonwebtoken_1.default.verify(req.session.jwt, process.env.JWT_KEY);
     if (payload.expirationTime < Date.now()) {
-        req.session = null;
+        req.currentUser = undefined;
         throw new not_authorized_error_1.NotAuthorizedError;
     }
     next();
