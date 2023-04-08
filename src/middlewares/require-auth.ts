@@ -14,9 +14,14 @@ export const requireAuth = (
     res: Response,
     next: NextFunction
 ) => {
-    if (!req.session?.jwt) return next();
+    if (!req.session?.jwt) {
+        throw new NotAuthorizedError;
+    }
     const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!) as UserPayload;
-    if (payload.expirationTime < Date.now()) req.currentUser = undefined;
+    if (payload.expirationTime < Date.now()) {
+        req.session = null;
+        throw new NotAuthorizedError;
+    }
 
     next();
 };
