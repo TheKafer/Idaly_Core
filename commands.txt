@@ -9,5 +9,5 @@ npm run build
 
 npm publish
 
-# Istall the package
+# Install the package
  npm install git+ssh://git@github.com:TheKafer/Idaly_Core.git#main

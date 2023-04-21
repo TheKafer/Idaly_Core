@@ -1,7 +1,7 @@
 {
-  "name": "idaly_core",
+  "name": "@idaly/idaly_core",
   "description": "Core of the project",
-  "version": "0.0.4",
+  "version": "0.0.1",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "files": [
